@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { FaGoogle } from "react-icons/fa";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import useAuth from "../contexts/AuthContext";
+import isStrongPassword from "../utils/isStrongPassword";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -15,6 +16,8 @@ const Register = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const { createUser, googleSignIn, updateUserProfile, setUser } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,20 +27,12 @@ const Register = () => {
     }));
   };
 
-  const isStrongPassword = (password) => {
-    return password.length >= 6 && /[A-Z]/.test(password) && /[a-z]/.test(password);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { name, email, photoURL, password } = formData;
 
     if (!name || !email || !password) {
-      Swal.fire({
-        icon: "error",
-        title: "Validation Error",
-        text: "All fields are required!",
-      });
+      console.error("All fields are required");
       return;
     }
 
@@ -54,11 +49,7 @@ const Register = () => {
       const result = await createUser(email, password);
       const user = result.user;
       
-      await updateUserProfile(user, {
-        displayName: name,
-        photoURL: photoURL || "https://via.placeholder.com/150",
-      });
-
+      await updateUserProfile(name, photoURL);
       setUser(user);
       setErrorMessage("");
 
@@ -70,7 +61,7 @@ const Register = () => {
         timer: 1500,
       });
 
-      navigate("/");
+      navigate(from, { replace: true });
     } catch (error) {
       console.error("Error registering:", error);
       Swal.fire({
@@ -95,7 +86,7 @@ const Register = () => {
         showConfirmButton: false,
         timer: 1500,
       });
-      navigate("/");
+      navigate(from, { replace: true });
     } catch (error) {
       console.error("Error signing in with Google:", error);
       Swal.fire({
@@ -179,6 +170,10 @@ const Register = () => {
             </div>
           </div>
 
+          {errorMessage && (
+            <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
+          )}
+
           <div>
             <button
               type="submit"
@@ -214,14 +209,14 @@ const Register = () => {
         </div>
 
         <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
-            Already have an account?{" "}
-            <Link
-              to="/auth/login"
-              className="font-medium text-primary hover:text-[#0e6b70]"
-            >
-              Sign in
-            </Link>
-          </p>
+          Already have an account?{" "}
+          <Link
+            to="/auth/login"
+            className="font-medium text-primary hover:text-[#0e6b70]"
+          >
+            Sign in
+          </Link>
+        </p>
       </div>
     </div>
   );

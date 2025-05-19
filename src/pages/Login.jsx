@@ -69,6 +69,8 @@ const Login = () => {
       icon: "info",
       title: "Forgot Password",
       text: "Forgot Password functionality is not implemented yet.",
+      confirmButtonText: "OK",
+      confirmButtonColor: "#0e6b70"
     });
   };
 
@@ -126,14 +128,15 @@ const Login = () => {
             </button>
           </div>
 
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-end">
             <div className="text-sm">
-              <Link
-                to="/auth/forgot-password"
+              <button
+                type="button"
+                onClick={handleForgotPassword}
                 className="font-medium text-primary hover:text-[#0e6b70]"
               >
                 Forgot your password?
-              </Link>
+              </button>
             </div>
           </div>
         </form>
