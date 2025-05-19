@@ -7,8 +7,8 @@ import useAuth from "../../contexts/AuthContext";
 
 const navItems = [
   { name: "Home", path: "/" },
-  { name: "Browse Listing", path: "/browse" },
-  { name: "Add to Find Roommate", path: "/add-roommate", isPrivate: true },
+  { name: "Browse Listing", path: "/browse-listings" },
+  { name: "Add to Find Roommate", path: "/add-listing", isPrivate: true },
   { name: "My Listings", path: "/my-listings", isPrivate: true },
 ];
 
