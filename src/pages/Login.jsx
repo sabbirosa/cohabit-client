@@ -8,7 +8,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const { signIn, signInWithGoogle } = useAuth();
+  const { signIn, googleSignIn, setUser } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
@@ -18,15 +18,19 @@ const Login = () => {
     setLoading(true);
 
     try {
-      await signIn(email, password);
+      const result = await signIn(email, password);
+      const user = result.user;
+      setUser(user);
       Swal.fire({
         icon: "success",
         title: "Login Successful!",
+        text: "User logged in successfully!",
         showConfirmButton: false,
         timer: 1500,
       });
       navigate(from, { replace: true });
     } catch (error) {
+      console.error("Error logging in:", error);
       Swal.fire({
         icon: "error",
         title: "Login Failed",
@@ -39,21 +43,33 @@ const Login = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      await signInWithGoogle();
+      const result = await googleSignIn();
+      const user = result.user;
+      setUser(user);
       Swal.fire({
         icon: "success",
         title: "Login Successful!",
+        text: "User logged in successfully!",
         showConfirmButton: false,
         timer: 1500,
       });
       navigate(from, { replace: true });
     } catch (error) {
+      console.error("Error signing in with Google:", error);
       Swal.fire({
         icon: "error",
         title: "Google Sign In Failed",
         text: error.message,
       });
     }
+  };
+
+  const handleForgotPassword = () => {
+    Swal.fire({
+      icon: "info",
+      title: "Forgot Password",
+      text: "Forgot Password functionality is not implemented yet.",
+    });
   };
 
   return (

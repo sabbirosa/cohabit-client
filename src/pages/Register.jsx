@@ -12,7 +12,8 @@ const Register = () => {
     password: "",
   });
   const [loading, setLoading] = useState(false);
-  const { createUser, signInWithGoogle, updateUserProfile } = useAuth();
+  const [errorMessage, setErrorMessage] = useState("");
+  const { createUser, googleSignIn, updateUserProfile, setUser } = useAuth();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -23,41 +24,55 @@ const Register = () => {
     }));
   };
 
+  const isStrongPassword = (password) => {
+    return password.length >= 6 && /[A-Z]/.test(password) && /[a-z]/.test(password);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { name, email, photoURL, password } = formData;
 
-    // Validation
-    if (password.length < 6) {
-      return Swal.fire({
+    if (!name || !email || !password) {
+      Swal.fire({
         icon: "error",
-        title: "Invalid Password",
-        text: "Password must be at least 6 characters long!",
+        title: "Validation Error",
+        text: "All fields are required!",
       });
+      return;
+    }
+
+    if (!isStrongPassword(password)) {
+      setErrorMessage(
+        "Password must be at least 6 characters long and include at least one uppercase letter and one lowercase letter."
+      );
+      return;
     }
 
     setLoading(true);
 
     try {
-      // Create user
-      const { user } = await createUser(email, password);
+      const result = await createUser(email, password);
+      const user = result.user;
       
-      // Update profile
       await updateUserProfile(user, {
         displayName: name,
         photoURL: photoURL || "https://via.placeholder.com/150",
       });
 
+      setUser(user);
+      setErrorMessage("");
+
       Swal.fire({
         icon: "success",
         title: "Registration Successful!",
-        text: "Your account has been created successfully.",
+        text: "User registered successfully!",
         showConfirmButton: false,
         timer: 1500,
       });
 
       navigate("/");
     } catch (error) {
+      console.error("Error registering:", error);
       Swal.fire({
         icon: "error",
         title: "Registration Failed",
@@ -70,15 +85,19 @@ const Register = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      await signInWithGoogle();
+      const result = await googleSignIn();
+      const user = result.user;
+      setUser(user);
       Swal.fire({
         icon: "success",
         title: "Registration Successful!",
+        text: "User logged in successfully!",
         showConfirmButton: false,
         timer: 1500,
       });
       navigate("/");
     } catch (error) {
+      console.error("Error signing in with Google:", error);
       Swal.fire({
         icon: "error",
         title: "Google Sign In Failed",

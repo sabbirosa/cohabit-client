@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { HiOutlineMenuAlt1, HiOutlineX } from "react-icons/hi";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
+import Swal from "sweetalert2";
 import useAuth from "../../contexts/AuthContext";
 
 const navItems = [
@@ -12,14 +13,21 @@ const navItems = [
 ];
 
 function Navbar() {
-  const { user, logOut } = useAuth();
+  const { user, signOut } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogOut = () => {
-    logOut()
+    signOut()
       .then(() => {
         // Logout successful
+        Swal.fire({
+          title: "Logged Out",
+          text: "You have been logged out successfully",
+          icon: "success",
+        });
+        navigate("/auth/login");
       })
       .catch((error) => {
         console.error(error);
