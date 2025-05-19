@@ -118,7 +118,7 @@ function Footer() {
             <ul className="space-y-2">
               {quickLinks.map((link) => (
                 <li key={link.path}>
-                  <Link to={link.path} className="hover:text-indigo-400">
+                  <Link to={link.path} className="hover:text-[#107d83]">
                     {link.name}
                   </Link>
                 </li>
@@ -136,7 +136,7 @@ function Footer() {
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-indigo-400"
+                  className="hover:text-[#107d83]"
                 >
                   {link.icon}
                 </a>
