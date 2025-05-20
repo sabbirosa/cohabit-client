@@ -33,9 +33,10 @@ const router = createBrowserRouter([
       },
 
       {
-        path: "browse-listings",
+        path: "listings",
         element: <BrowseListings />,
-        loader: () => fetch(`${apiURI}/listings`)
+        loader: () => fetch(`${apiURI}/listings`),
+        hydrateFallbackElement: <Loading />,
       },
 
       {
@@ -45,12 +46,12 @@ const router = createBrowserRouter([
             <MyListings />
           </PrivateRoute>
         ),
-        loader: () => fetch(`${apiURI}/my-listings`),
+        loader: () => fetch(`${apiURI}/listings`),
         hydrateFallbackElement: <Loading />,
       },
 
       {
-        path: "details/:id",
+        path: "listing-details/:id",
         element: (
           <PrivateRoute>
             <DetailsPage />
