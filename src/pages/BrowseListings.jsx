@@ -79,7 +79,7 @@ function BrowseListings() {
                 </td>
                 <td className="px-6 py-4">
                   <Link
-                    to={`/listing-details/${listing._id}`}
+                    to={`/listings/${listing._id}`}
                     className="block text-center py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition duration-200"
                   >
                     See More

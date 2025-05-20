@@ -10,7 +10,6 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import MyListings from "../pages/MyListings";
 import Register from "../pages/Register";
-import UpdateListing from "../pages/UpdateListing";
 import PrivateRoute from "./PrivateRoute";
 
 const apiURI = import.meta.env.VITE_API_URI;
@@ -20,7 +19,12 @@ const router = createBrowserRouter([
     path: "/",
     element: <Root />,
     children: [
-      { index: true, element: <Home /> },
+      {
+        index: true,
+        element: <Home />,
+        loader: () => fetch(`${apiURI}/featured`),
+        hydrateFallbackElement: <Loading />,
+      },
 
       {
         path: "add-listing",
@@ -51,21 +55,10 @@ const router = createBrowserRouter([
       },
 
       {
-        path: "listing-details/:id",
+        path: "listings/:id",
         element: (
           <PrivateRoute>
             <DetailsPage />
-          </PrivateRoute>
-        ),
-        loader: ({ params }) => fetch(`${apiURI}/listings/${params.id}`),
-        hydrateFallbackElement: <Loading />,
-      },
-
-      {
-        path: "update/:id",
-        element: (
-          <PrivateRoute>
-            <UpdateListing />
           </PrivateRoute>
         ),
         loader: ({ params }) => fetch(`${apiURI}/listings/${params.id}`),
