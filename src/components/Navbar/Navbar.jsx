@@ -102,8 +102,8 @@ function Navbar() {
                     src={user.photoURL || "https://via.placeholder.com/40"}
                     alt={user.displayName}
                     className="h-8 w-8 rounded-full cursor-pointer"
-                    data-tooltip-id="user-tooltip"
-                    data-tooltip-content={user.displayName}
+                    // data-tooltip-id="user-tooltip"
+                    // data-tooltip-content={user.displayName}
                   />
                   <Tooltip id="user-tooltip" place="bottom" />
                   <div className="absolute right-0 w-48 mt-2 py-2 bg-base-100 rounded-md shadow-xl hidden group-hover:block">
