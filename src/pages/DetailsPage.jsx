@@ -109,7 +109,7 @@ function DetailsPage() {
           <div className="mb-8">
             <h3 className="text-xl font-semibold text-white mb-4">Lifestyle Preferences</h3>
             <div className="flex flex-wrap gap-3">
-              {listingDetails.preferences?.map((pref, index) => (
+              {listingDetails.lifestylePreferences?.map((pref, index) => (
                 <span
                   key={index}
                   className="px-3 py-1 bg-blue-500 bg-opacity-20 text-blue-400 rounded-full"

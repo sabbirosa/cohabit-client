@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { FaEdit, FaTimes, FaTrash } from "react-icons/fa";
 import { useLoaderData } from "react-router";
-import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 import Button from "../components/shared/Button";
 import useAuth from "../contexts/AuthContext";
 
 function MyListings() {
   const { user } = useAuth();
-  const allListings = useLoaderData();
-  const myListings = allListings.filter((listing) => listing.userEmail === user.email);
+  const initialListings = useLoaderData();
+  const [myListings, setMyListings] = useState(
+    initialListings.filter((listing) => listing.userEmail === user.email)
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedListing, setSelectedListing] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -43,14 +45,14 @@ function MyListings() {
     setIsLoading(true);
 
     const formData = new FormData(e.target);
-    const preferences = lifestyleOptions.filter(option => formData.getAll('preferences').includes(option));
+    const lifestylePreferences = lifestyleOptions.filter(option => formData.getAll('lifestylePreferences').includes(option));
     
-    const data = {
+    const updatedData = {
       title: formData.get('title'),
       location: formData.get('location'),
       rent: Number(formData.get('rent')),
       roomType: formData.get('roomType'),
-      preferences,
+      lifestylePreferences,
       description: formData.get('description'),
       contact: formData.get('contact'),
       availability: formData.get('availability'),
@@ -64,58 +66,53 @@ function MyListings() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(updatedData),
       });
 
       if (!response.ok) {
         throw new Error('Failed to update listing');
       }
 
-      toast.success("Your listing has been updated successfully!");
+      // Update the state locally
+      setMyListings(prevListings => 
+        prevListings.map(listing => 
+          listing._id === selectedListing._id 
+            ? { ...listing, ...updatedData }
+            : listing
+        )
+      );
+
+      await Swal.fire({
+        title: "Success!",
+        text: "Your listing has been updated successfully!",
+        icon: "success",
+      });
+      
       handleCloseModal();
-      window.location.reload();
     } catch (error) {
       console.error('Error updating listing:', error);
-      toast.error("Failed to update listing. Please try again.");
+      await Swal.fire({
+        title: "Error!",
+        text: "Failed to update listing. Please try again.",
+        icon: "error",
+      });
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleDelete = async (id) => {
-    const result = await toast.promise(
-      new Promise((resolve, reject) => {
-        toast.info(
-          <div>
-            <p>Are you sure you want to delete this listing?</p>
-            <div className="mt-4 flex justify-end gap-2">
-              <Button
-                onClick={() => reject()}
-                variant="ghost"
-                size="sm"
-              >
-                Cancel
-              </Button>
-              <Button
-                onClick={() => resolve()}
-                variant="error"
-                size="sm"
-              >
-                Delete
-              </Button>
-            </div>
-          </div>,
-          { closeButton: false }
-        );
-      }),
-      {
-        pending: 'Please confirm deletion',
-        success: 'Listing deleted successfully',
-        error: 'Deletion cancelled'
-      }
-    );
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    });
 
-    if (result) {
+    if (result.isConfirmed) {
       try {
         const response = await fetch(`${import.meta.env.VITE_API_URI}/listings/${id}`, {
           method: 'DELETE',
@@ -125,10 +122,24 @@ function MyListings() {
           throw new Error('Failed to delete listing');
         }
 
-        window.location.reload();
+        // Update the state locally by filtering out the deleted listing
+        setMyListings(prevListings => 
+          prevListings.filter(listing => listing._id !== id)
+        );
+
+        await Swal.fire({
+          title: "Deleted!",
+          text: "Your listing has been deleted.",
+          icon: "success"
+        });
+
       } catch (error) {
         console.error('Error deleting listing:', error);
-        toast.error("Failed to delete listing. Please try again.");
+        await Swal.fire({
+          title: "Error!",
+          text: "Failed to delete listing. Please try again.",
+          icon: "error"
+        });
       }
     }
   };
@@ -170,21 +181,21 @@ function MyListings() {
                       ${listing.rent}/month
                     </td>
                     <td className="px-6 py-4">
-                      <span className={`badge ${
+                      <span className={`inline-flex items-center justify-center px-3 py-1 text-sm font-medium rounded-full text-center ${
                         listing.availability === "Available" 
-                          ? "badge-success"
-                          : "badge-error"
+                          ? "bg-success/20 text-success"
+                          : "bg-error/20 text-error"
                       }`}>
                         {listing.availability}
                       </span>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="flex items-center justify-center space-x-3">
+                      <div className="flex items-center justify-center gap-2">
                         <Button
                           onClick={() => handleOpenModal(listing)}
                           variant="primary"
                           size="sm"
-                          className="gap-2"
+                          className="min-w-24 flex items-center justify-center gap-2"
                         >
                           <FaEdit className="w-4 h-4" />
                           Edit
@@ -193,7 +204,7 @@ function MyListings() {
                           onClick={() => handleDelete(listing._id)}
                           variant="error"
                           size="sm"
-                          className="gap-2"
+                          className="min-w-24 flex items-center justify-center gap-2"
                         >
                           <FaTrash className="w-4 h-4" />
                           Delete
@@ -287,20 +298,23 @@ function MyListings() {
 
                 <div>
                   <label className="label">
-                    <span className="label-text">Lifestyle Preferences</span>
+                    <span className="label-text font-medium text-base-content">Lifestyle Preferences</span>
                   </label>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                     {lifestyleOptions.map(option => (
-                      <div key={option} className="flex items-center">
+                      <div key={option} className="flex items-center gap-3">
                         <input
                           type="checkbox"
                           id={option}
-                          name="preferences"
+                          name="lifestylePreferences"
                           value={option}
-                          defaultChecked={selectedListing.preferences?.includes(option)}
+                          defaultChecked={selectedListing.lifestylePreferences?.includes(option)}
                           className="checkbox checkbox-primary"
                         />
-                        <label htmlFor={option} className="ml-2 text-base-content/70">
+                        <label 
+                          htmlFor={option} 
+                          className="text-base-content/70 text-sm cursor-pointer select-none"
+                        >
                           {option}
                         </label>
                       </div>
@@ -368,6 +382,7 @@ function MyListings() {
                   <Button
                     onClick={handleCloseModal}
                     variant="ghost"
+                    className="min-w-24"
                   >
                     Cancel
                   </Button>
@@ -375,8 +390,9 @@ function MyListings() {
                     type="submit"
                     variant="primary"
                     isLoading={isLoading}
+                    className="min-w-24"
                   >
-                    {isLoading ? "Updating..." : "Update Listing"}
+                    {isLoading ? "Updating..." : "Update"}
                   </Button>
                 </div>
               </form>

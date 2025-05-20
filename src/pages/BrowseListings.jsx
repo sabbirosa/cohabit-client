@@ -32,17 +32,17 @@ function BrowseListings() {
                   <div className="flex flex-col">
                     <span className="text-base-content font-medium">{listing.title}</span>
                     <div className="flex flex-wrap gap-2 mt-2">
-                      {listing.preferences?.slice(0, 2).map((pref, index) => (
+                      {listing.lifestylePreferences?.slice(0, 2).map((pref, index) => (
                         <span
                           key={index}
-                          className="badge badge-primary badge-outline"
+                          className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary"
                         >
                           {pref}
                         </span>
                       ))}
-                      {listing.preferences?.length > 2 && (
-                        <span className="badge badge-primary badge-outline">
-                          +{listing.preferences.length - 2} more
+                      {listing.lifestylePreferences?.length > 2 && (
+                        <span className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary">
+                          +{listing.lifestylePreferences.length - 2} more
                         </span>
                       )}
                     </div>
@@ -67,23 +67,23 @@ function BrowseListings() {
                   </div>
                 </td>
                 <td className="px-6 py-4">
-                  <span className={`badge ${
+                  <span className={`inline-flex items-center justify-center px-3 py-1 text-sm font-medium rounded-full text-center ${
                     listing.availability === "Available" 
-                      ? "badge-success"
-                      : "badge-error"
+                      ? "bg-success/20 text-success"
+                      : "bg-error/20 text-error"
                   }`}>
                     {listing.availability}
                   </span>
                 </td>
                 <td className="px-6 py-4 text-base-content/70">
-                  {listing.likeCount} people
+                  {listing.likeCount || 0} people
                 </td>
                 <td className="px-6 py-4">
                   <Button
                     to={`/listings/${listing._id}`}
                     variant="primary"
                     size="sm"
-                    className="w-full"
+                    className="min-w-24 flex items-center justify-center"
                   >
                     See More
                   </Button>

@@ -29,14 +29,14 @@ function AddListing() {
     setIsLoading(true);
 
     const formData = new FormData(e.target);
-    const preferences = lifestyleOptions.filter(option => formData.getAll('preferences').includes(option));
+    const lifestylePreferences = lifestyleOptions.filter(option => formData.getAll('lifestylePreferences').includes(option));
     
     const data = {
       title: formData.get('title'),
       location: formData.get('location'),
       rent: Number(formData.get('rent')),
       roomType: formData.get('roomType'),
-      preferences,
+      lifestylePreferences,
       description: formData.get('description'),
       contact: formData.get('contact'),
       availability: formData.get('availability'),
@@ -143,7 +143,7 @@ function AddListing() {
                 <input
                   type="checkbox"
                   id={option}
-                  name="preferences"
+                  name="lifestylePreferences"
                   value={option}
                   className="checkbox checkbox-primary"
                 />
@@ -164,7 +164,7 @@ function AddListing() {
             name="description"
             required
             rows="4"
-            placeholder="Describe the room and your preferences"
+            placeholder="Describe the room and your lifestyle preferences"
             className="textarea textarea-bordered w-full"
           ></textarea>
         </div>
