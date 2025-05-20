@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useLocation, useNavigate } from "react-router";
-import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 import Button from "../components/shared/Button";
 import useAuth from "../contexts/AuthContext";
 import isStrongPassword from "../utils/isStrongPassword";
@@ -33,7 +33,11 @@ const Register = () => {
     const { name, email, photoURL, password } = formData;
 
     if (!name || !email || !password) {
-      toast.error("All fields are required");
+      Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: 'All fields are required'
+      });
       return;
     }
 
@@ -54,11 +58,21 @@ const Register = () => {
       setUser(user);
       setErrorMessage("");
 
-      toast.success("Registration successful!");
+      Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: 'Registration successful!',
+        timer: 1500,
+        showConfirmButton: false
+      });
       navigate(from, { replace: true });
     } catch (error) {
       console.error("Error registering:", error);
-      toast.error(error.message);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: error.message
+      });
     } finally {
       setIsLoading(false);
     }
@@ -69,11 +83,21 @@ const Register = () => {
       const result = await googleSignIn();
       const user = result.user;
       setUser(user);
-      toast.success("Registration successful!");
+      Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: 'Registration successful!',
+        timer: 1500,
+        showConfirmButton: false
+      });
       navigate(from, { replace: true });
     } catch (error) {
       console.error("Error signing in with Google:", error);
-      toast.error(error.message);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: error.message
+      });
     }
   };
 

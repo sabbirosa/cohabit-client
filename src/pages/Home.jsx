@@ -1,5 +1,5 @@
+import { Fade, Slide, Zoom } from "react-awesome-reveal";
 import { FaBed, FaComments, FaHeart, FaMapMarkerAlt, FaQuoteLeft, FaSearch, FaShieldAlt, FaStar, FaUserFriends } from "react-icons/fa";
-
 import { useLoaderData } from 'react-router';
 import "swiper/css";
 import "swiper/css/navigation";
@@ -94,58 +94,69 @@ function Home() {
 
       {/* Featured Listings Section */}
       <div className="max-w-7xl mx-auto py-16 px-4">
-        <h2 className="text-4xl font-bold text-center mb-12">Featured Listings</h2>
+        <Fade direction="up" triggerOnce>
+          <h2 className="text-4xl font-bold text-center mb-12">Featured Listings</h2>
+        </Fade>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {featuredListing.map((listing) => (
-            <div key={listing._id} className="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow duration-300">
-              <div className="card-body">
-                <div className="flex justify-between items-start">
-                  <h2 className="card-title text-xl font-bold">{listing.title}</h2>
-                  <span className={`inline-flex items-center justify-center px-3 py-1 text-sm font-medium rounded-full ${
-                    listing.availability === "Available" 
-                      ? "bg-success/20 text-success"
-                      : "bg-error/20 text-error"
-                  }`}>
-                    {listing.availability}
-                  </span>
-                </div>
-                <div className="space-y-3">
-                  <p className="text-lg font-semibold text-primary">৳{listing.rent}/month</p>
-                  <p className="flex items-center gap-2">
-                    <FaMapMarkerAlt className="w-5 h-5 text-primary" />
-                    {listing.location}
-                  </p>
-                  <div className="flex items-center gap-2">
-                    <FaBed className="w-5 h-5 text-primary" />
-                    <span className="font-medium">{listing.roomType}</span>
-                  </div>
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    {listing.lifestylePreferences.map((pref, index) => (
-                      <span 
-                        key={index} 
-                        className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary"
-                      >
-                        {pref}
+          {featuredListing.map((listing, index) => (
+            <Zoom delay={index * 100} triggerOnce key={listing._id}>
+              <div className="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow duration-300 h-full hover:-translate-y-1">
+                <div className="card-body flex flex-col justify-between h-full">
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-start">
+                      <h2 className="card-title text-xl font-bold line-clamp-2">{listing.title}</h2>
+                      <span className={`inline-flex items-center justify-center px-3 py-1 text-sm font-medium rounded-full ${
+                        listing.availability === "Available" 
+                          ? "bg-success/20 text-success"
+                          : "bg-error/20 text-error"
+                      }`}>
+                        {listing.availability}
                       </span>
-                    ))}
+                    </div>
+                    <div className="space-y-3">
+                      <p className="text-lg font-semibold text-primary">৳{listing.rent}/month</p>
+                      <p className="flex items-center gap-2">
+                        <FaMapMarkerAlt className="w-5 h-5 text-primary flex-shrink-0" />
+                        <span className="line-clamp-1">{listing.location}</span>
+                      </p>
+                      <div className="flex items-center gap-2">
+                        <FaBed className="w-5 h-5 text-primary flex-shrink-0" />
+                        <span className="font-medium">{listing.roomType}</span>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {listing.lifestylePreferences.slice(0, 3).map((pref, index) => (
+                          <span 
+                            key={index} 
+                            className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary"
+                          >
+                            {pref}
+                          </span>
+                        ))}
+                        {listing.lifestylePreferences.length > 3 && (
+                          <span className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary">
+                            +{listing.lifestylePreferences.length - 3} more
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-2 text-gray-600">
+                        <FaHeart className="w-5 h-5 text-primary flex-shrink-0" />
+                        {listing.likeCount || 0} likes
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-2 text-gray-600">
-                    <FaHeart className="w-5 h-5 text-primary" />
-                    {listing.likeCount || 0} likes
+                  <div className="card-actions justify-end mt-4">
+                    <Button 
+                      to={`/listings/${listing._id}`} 
+                      variant="primary" 
+                      size="sm"
+                      className="min-w-24 flex items-center justify-center"
+                    >
+                      View Details
+                    </Button>
                   </div>
-                </div>
-                <div className="card-actions justify-end mt-4">
-                  <Button 
-                    to={`/listings/${listing._id}`} 
-                    variant="primary" 
-                    size="sm"
-                    className="min-w-24 flex items-center justify-center"
-                  >
-                    View Details
-                  </Button>
                 </div>
               </div>
-            </div>
+            </Zoom>
           ))}
         </div>
       </div>
@@ -153,76 +164,88 @@ function Home() {
       {/* Why Choose Cohabit Section */}
       <div className="bg-primary/10 mx-auto">
         <div className="py-16 max-w-7xl mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-12">Why Choose Cohabit?</h2>
+          <Fade direction="up" triggerOnce>
+            <h2 className="text-4xl font-bold text-center mb-12">Why Choose Cohabit?</h2>
+          </Fade>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-            <div className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300">
-              <div className="card-body">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-                    <FaShieldAlt className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold mb-2">Verified Profiles</h3>
-                    <p className="text-base-content/70">Every user goes through our verification process to ensure a safe and trustworthy community.</p>
+            <Slide direction="left" triggerOnce>
+              <div className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300">
+                <div className="card-body">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                      <FaShieldAlt className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-semibold mb-2">Verified Profiles</h3>
+                      <p className="text-base-content/70">Every user goes through our verification process to ensure a safe and trustworthy community.</p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </Slide>
 
-            <div className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300">
-              <div className="card-body">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-                    <FaUserFriends className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold mb-2">Smart Matching</h3>
-                    <p className="text-base-content/70">Our advanced algorithm matches you with roommates based on lifestyle, preferences, and compatibility.</p>
+            <Slide direction="right" triggerOnce>
+              <div className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300">
+                <div className="card-body">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                      <FaUserFriends className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-semibold mb-2">Smart Matching</h3>
+                      <p className="text-base-content/70">Our advanced algorithm matches you with roommates based on lifestyle, preferences, and compatibility.</p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </Slide>
 
-            <div className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300">
-              <div className="card-body">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-                    <FaSearch className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold mb-2">Detailed Listings</h3>
-                    <p className="text-base-content/70">Comprehensive listing details with photos, amenities, and all the information you need to make a decision.</p>
+            <Slide direction="left" triggerOnce>
+              <div className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300">
+                <div className="card-body">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                      <FaSearch className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-semibold mb-2">Detailed Listings</h3>
+                      <p className="text-base-content/70">Comprehensive listing details with photos, amenities, and all the information you need to make a decision.</p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </Slide>
 
-            <div className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300">
-              <div className="card-body">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-                    <FaComments className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold mb-2">Easy Communication</h3>
-                    <p className="text-base-content/70">Built-in messaging system makes it simple to connect and coordinate with potential roommates.</p>
+            <Slide direction="right" triggerOnce>
+              <div className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300">
+                <div className="card-body">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                      <FaComments className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-semibold mb-2">Easy Communication</h3>
+                      <p className="text-base-content/70">Built-in messaging system makes it simple to connect and coordinate with potential roommates.</p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </Slide>
           </div>
         </div>
       </div>
 
-      {/* Reviews Section */}
+      {/* Testimonials Section */}
       <div className="py-16">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">What Our Users Say</h2>
-            <p className="text-lg text-base-content/70 max-w-2xl mx-auto">
-              Hear from people who found their perfect living situation through Cohabit
-            </p>
-          </div>
+          <Fade direction="up" triggerOnce>
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold mb-4">What Our Users Say</h2>
+              <p className="text-lg text-base-content/70 max-w-2xl mx-auto">
+                Hear from people who found their perfect living situation through Cohabit
+              </p>
+            </div>
+          </Fade>
 
           <Swiper
             spaceBetween={30}
@@ -243,31 +266,33 @@ function Home() {
           >
             {reviews.map((review, index) => (
               <SwiperSlide key={index}>
-                <div className="bg-base-100 p-6 rounded-[var(--radius-box)] shadow-lg border border-primary/20">
-                  <div className="flex items-center gap-4 mb-4">
-                    <img 
-                      src={review.image} 
-                      alt={review.name} 
-                      className="w-12 h-12 rounded-full object-cover"
-                    />
-                    <div>
-                      <h3 className="font-semibold">{review.name}</h3>
-                      <p className="text-sm text-base-content/70">{review.role}</p>
+                <Zoom delay={index * 100} triggerOnce>
+                  <div className="bg-base-100 p-6 rounded-[var(--radius-box)] shadow-lg border border-primary/20 h-fit flex flex-col">
+                    <div className="flex items-start gap-4 mb-4">
+                      <img 
+                        src={review.image} 
+                        alt={review.name} 
+                        className="w-16 h-16 rounded-full object-cover flex-shrink-0"
+                      />
+                      <div>
+                        <h3 className="font-semibold line-clamp-1">{review.name}</h3>
+                        <p className="text-sm text-base-content/70">{review.role}</p>
+                        <div className="flex mb-3 mt-1">
+                          {[...Array(5)].map((_, i) => (
+                            <FaStar 
+                              key={i} 
+                              className={i < review.rating ? 'text-primary' : 'text-gray-300'}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="relative flex-grow">
+                      <FaQuoteLeft className="absolute -top-3 -left-2 text-3xl text-primary/10" />
+                      <p className="text-base-content/70 pl-6 line-clamp-4">{review.review}</p>
                     </div>
                   </div>
-                  <div className="flex text-warning mb-3">
-                    {[...Array(5)].map((_, i) => (
-                      <FaStar 
-                        key={i} 
-                        className={i < review.rating ? 'text-warning' : 'text-gray-300'}
-                      />
-                    ))}
-                  </div>
-                  <div className="relative">
-                    <FaQuoteLeft className="absolute -top-3 -left-2 text-3xl text-primary/10" />
-                    <p className="text-base-content/70 pl-6">{review.review}</p>
-                  </div>
-                </div>
+                </Zoom>
               </SwiperSlide>
             ))}
           </Swiper>

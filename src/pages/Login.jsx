@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useLocation, useNavigate } from "react-router";
-import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 import Button from "../components/shared/Button";
 import useAuth from "../contexts/AuthContext";
 
@@ -23,10 +23,20 @@ function Login() {
 
     try {
       await signIn(email, password);
-      toast.success("Login successful!");
+      Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: 'Login successful!',
+        timer: 1500,
+        showConfirmButton: false
+      });
       navigate(from, { replace: true });
     } catch (error) {
-      toast.error(error.message);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: error.message
+      });
     } finally {
       setIsLoading(false);
     }
@@ -35,10 +45,20 @@ function Login() {
   const handleGoogleSignIn = async () => {
     try {
       await googleSignIn();
-      toast.success("Login successful!");
+      Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: 'Login successful!',
+        timer: 1500,
+        showConfirmButton: false
+      });
       navigate(from, { replace: true });
     } catch (error) {
-      toast.error(error.message);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: error.message
+      });
     }
   };
 

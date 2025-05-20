@@ -2,14 +2,15 @@ import { useEffect, useState } from "react";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { HiOutlineMenuAlt1, HiOutlineX } from "react-icons/hi";
 import { Link, NavLink, useNavigate } from "react-router";
+import { Tooltip } from 'react-tooltip';
 import Swal from "sweetalert2";
 import useAuth from "../../contexts/AuthContext";
 
 const navItems = [
   { name: "Home", path: "/" },
   { name: "Browse Listing", path: "/listings" },
-  { name: "Add to Find Roommate", path: "/add-listing", isPrivate: true },
-  { name: "My Listings", path: "/my-listings", isPrivate: true },
+  { name: "Add to Find Roommate", path: "/add-listing", isPrivate: false },
+  { name: "My Listings", path: "/my-listings", isPrivate: false },
 ];
 
 function Navbar() {
@@ -86,10 +87,10 @@ function Navbar() {
                 onChange={toggleTheme}
                 checked={theme === "dark"}
               />
-              <div className="swap-on bg-primary/10 rounded-full p-2.25">
+              <div className="swap-on bg-primary/10 rounded-lg p-2.25">
                 <FaSun className="h-5 w-5 text-primary" />
               </div>
-              <div className="swap-off bg-primary/10 rounded-full p-2.25">
+              <div className="swap-off bg-primary/10 rounded-lg p-2.25">
                 <FaMoon className="h-5 w-5 text-primary" />
               </div>
               
@@ -101,7 +102,10 @@ function Navbar() {
                     src={user.photoURL || "https://via.placeholder.com/40"}
                     alt={user.displayName}
                     className="h-8 w-8 rounded-full cursor-pointer"
+                    data-tooltip-id="user-tooltip"
+                    data-tooltip-content={user.displayName}
                   />
+                  <Tooltip id="user-tooltip" place="bottom" />
                   <div className="absolute right-0 w-48 mt-2 py-2 bg-base-100 rounded-md shadow-xl hidden group-hover:block">
                     <p className="block px-4 py-2 text-sm text-base-content">
                       {user.displayName}

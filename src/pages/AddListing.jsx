@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 import Button from "../components/shared/Button";
 import useAuth from "../contexts/AuthContext";
 
@@ -19,7 +19,7 @@ function AddListing() {
     "Quiet",
     "Social",
     "Vegetarian",
-    "Vegan"
+    "Vegan",
   ];
 
   const roomTypes = ["Single", "Shared", "Master", "Studio"];
@@ -29,40 +29,52 @@ function AddListing() {
     setIsLoading(true);
 
     const formData = new FormData(e.target);
-    const lifestylePreferences = lifestyleOptions.filter(option => formData.getAll('lifestylePreferences').includes(option));
-    
+    const lifestylePreferences = lifestyleOptions.filter((option) =>
+      formData.getAll("lifestylePreferences").includes(option)
+    );
+
     const data = {
-      title: formData.get('title'),
-      location: formData.get('location'),
-      rent: Number(formData.get('rent')),
-      roomType: formData.get('roomType'),
+      title: formData.get("title"),
+      location: formData.get("location"),
+      rent: Number(formData.get("rent")),
+      roomType: formData.get("roomType"),
       lifestylePreferences,
-      description: formData.get('description'),
-      contact: formData.get('contact'),
-      availability: formData.get('availability'),
+      description: formData.get("description"),
+      contact: formData.get("contact"),
+      availability: formData.get("availability"),
       userEmail: user.email,
       userName: user.displayName,
-      likeCount: 0
+      likeCount: 0,
     };
 
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URI}/listings`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to add listing');
+        throw new Error("Failed to add listing");
       }
 
-      toast.success("Your listing has been added successfully!");
-      navigate('/my-listings');
+      Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: 'Your listing has been added successfully!',
+        timer: 1500,
+        showConfirmButton: false
+      });
+      navigate("/my-listings");
     } catch (error) {
-      console.error('Error adding listing:', error);
-      toast.error("Failed to add listing. Please try again.");
+      console.error("Error adding listing:", error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: 'Failed to add listing. Please try again.'
+      });
     } finally {
       setIsLoading(false);
     }
@@ -70,9 +82,14 @@ function AddListing() {
 
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-4xl font-bold text-base-content mb-12">Add Listing</h1>
-      
-      <form onSubmit={handleSubmit} className="space-y-8 bg-primary/5 p-8 rounded-lg">
+      <h1 className="text-4xl font-bold text-base-content mb-12">
+        Add Listing
+      </h1>
+
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-8 bg-primary/5 p-8 rounded-lg"
+      >
         <div>
           <label htmlFor="title" className="label">
             <span className="label-text text-base-content">Title</span>
@@ -127,25 +144,29 @@ function AddListing() {
             className="select select-bordered w-full bg-primary/5 border-primary/20"
           >
             <option value="">Select room type</option>
-            {roomTypes.map(type => (
-              <option key={type} value={type}>{type}</option>
+            {roomTypes.map((type) => (
+              <option key={type} value={type}>
+                {type}
+              </option>
             ))}
           </select>
         </div>
 
         <div>
           <label className="label">
-            <span className="label-text text-base-content">Lifestyle Preferences</span>
+            <span className="label-text text-base-content">
+              Lifestyle Preferences
+            </span>
           </label>
           <div className="grid grid-cols-2 gap-6">
-            {lifestyleOptions.map(option => (
+            {lifestyleOptions.map((option) => (
               <div key={option} className="flex items-center space-x-3">
                 <input
                   type="checkbox"
                   id={option}
                   name="lifestylePreferences"
                   value={option}
-                  className="checkbox checkbox-primary border-primary/20"
+                  className="checkbox checkbox-primary rounded-box border-primary/20"
                 />
                 <label htmlFor={option} className="text-base-content/70">
                   {option}
@@ -171,7 +192,9 @@ function AddListing() {
 
         <div>
           <label htmlFor="contact" className="label">
-            <span className="label-text text-base-content">Contact Information</span>
+            <span className="label-text text-base-content">
+              Contact Information
+            </span>
           </label>
           <input
             type="text"
@@ -199,15 +222,36 @@ function AddListing() {
           </select>
         </div>
 
-        <div className="space-y-3">
-          <div className="flex items-center space-x-3">
+        <div>
+          <label htmlFor="userName" className="label">
+            <span className="label-text text-base-content">User Name</span>
+          </label>
+          <input
+            type="text"
+            value={user.displayName}
+            readOnly
+            className="input input-bordered w-full bg-primary/5 border-primary/20 cursor-not-allowed"
+          />
+        </div>
+        <div>
+          <label htmlFor="userEmail" className="label">
+            <span className="label-text text-base-content">User Email</span>
+          </label>
+          <input
+            type="email"
+            value={user.email}
+            readOnly
+            className="input input-bordered w-full bg-primary/5 border-primary/20 cursor-not-allowed"
+          />
+
+          {/* <div className="flex items-center space-x-3">
             <span className="text-base-content">User Email:</span>
             <span className="text-base-content/70">{user.email}</span>
           </div>
           <div className="flex items-center space-x-3">
             <span className="text-base-content">User Name:</span>
             <span className="text-base-content/70">{user.displayName}</span>
-          </div>
+          </div> */}
         </div>
 
         <div>
