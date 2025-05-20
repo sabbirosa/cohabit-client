@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import Swal from "sweetalert2";
+import { toast } from "react-toastify";
+import Button from "../components/shared/Button";
 import useAuth from "../contexts/AuthContext";
 
 function AddListing() {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const lifestyleOptions = [
     "Non-smoker",
@@ -25,7 +26,7 @@ function AddListing() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    setIsLoading(true);
 
     const formData = new FormData(e.target);
     const preferences = lifestyleOptions.filter(option => formData.getAll('preferences').includes(option));
@@ -57,35 +58,24 @@ function AddListing() {
         throw new Error('Failed to add listing');
       }
 
-      Swal.fire({
-        icon: "success",
-        title: "Success!",
-        text: "Your listing has been added successfully!",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-
+      toast.success("Your listing has been added successfully!");
       navigate('/my-listings');
     } catch (error) {
       console.error('Error adding listing:', error);
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "Failed to add listing. Please try again.",
-      });
+      toast.error("Failed to add listing. Please try again.");
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-4xl font-bold text-white mb-12">Add Listing</h1>
+      <h1 className="text-4xl font-bold text-base-content mb-12">Add Listing</h1>
       
       <form onSubmit={handleSubmit} className="space-y-8">
         <div>
-          <label htmlFor="title" className="block text-lg text-white mb-2">
-            Title
+          <label htmlFor="title" className="label">
+            <span className="label-text">Title</span>
           </label>
           <input
             type="text"
@@ -93,13 +83,13 @@ function AddListing() {
             name="title"
             required
             placeholder="e.g., Looking for a roommate in NYC"
-            className="w-full px-4 py-3 bg-[#1e2530] border border-gray-700 rounded-lg text-gray-300 placeholder-gray-500 focus:outline-none focus:border-blue-500"
+            className="input input-bordered w-full"
           />
         </div>
 
         <div>
-          <label htmlFor="location" className="block text-lg text-white mb-2">
-            Location
+          <label htmlFor="location" className="label">
+            <span className="label-text">Location</span>
           </label>
           <input
             type="text"
@@ -107,13 +97,13 @@ function AddListing() {
             name="location"
             required
             placeholder="e.g., Manhattan, NYC"
-            className="w-full px-4 py-3 bg-[#1e2530] border border-gray-700 rounded-lg text-gray-300 placeholder-gray-500 focus:outline-none focus:border-blue-500"
+            className="input input-bordered w-full"
           />
         </div>
 
         <div>
-          <label htmlFor="rent" className="block text-lg text-white mb-2">
-            Rent Amount
+          <label htmlFor="rent" className="label">
+            <span className="label-text">Rent Amount</span>
           </label>
           <input
             type="number"
@@ -122,30 +112,30 @@ function AddListing() {
             required
             min="0"
             placeholder="Monthly rent amount"
-            className="w-full px-4 py-3 bg-[#1e2530] border border-gray-700 rounded-lg text-gray-300 placeholder-gray-500 focus:outline-none focus:border-blue-500"
+            className="input input-bordered w-full"
           />
         </div>
 
         <div>
-          <label htmlFor="roomType" className="block text-lg text-white mb-2">
-            Room Type
+          <label htmlFor="roomType" className="label">
+            <span className="label-text">Room Type</span>
           </label>
           <select
             id="roomType"
             name="roomType"
             required
-            className="w-full px-4 py-3 bg-[#1e2530] border border-gray-700 rounded-lg text-gray-300 focus:outline-none focus:border-blue-500 appearance-none"
+            className="select select-bordered w-full"
           >
             <option value="">Select room type</option>
             {roomTypes.map(type => (
-              <option key={type} value={type} className="bg-[#1e2530]">{type}</option>
+              <option key={type} value={type}>{type}</option>
             ))}
           </select>
         </div>
 
         <div>
-          <label className="block text-lg text-white mb-4">
-            Lifestyle Preferences
+          <label className="label">
+            <span className="label-text">Lifestyle Preferences</span>
           </label>
           <div className="grid grid-cols-2 gap-6">
             {lifestyleOptions.map(option => (
@@ -155,9 +145,9 @@ function AddListing() {
                   id={option}
                   name="preferences"
                   value={option}
-                  className="w-5 h-5 rounded border-gray-700 bg-[#1e2530] text-blue-500 focus:ring-blue-500 focus:ring-offset-gray-900"
+                  className="checkbox checkbox-primary"
                 />
-                <label htmlFor={option} className="text-gray-300 text-lg">
+                <label htmlFor={option} className="text-base-content/70">
                   {option}
                 </label>
               </div>
@@ -166,8 +156,8 @@ function AddListing() {
         </div>
 
         <div>
-          <label htmlFor="description" className="block text-lg text-white mb-2">
-            Description
+          <label htmlFor="description" className="label">
+            <span className="label-text">Description</span>
           </label>
           <textarea
             id="description"
@@ -175,13 +165,13 @@ function AddListing() {
             required
             rows="4"
             placeholder="Describe the room and your preferences"
-            className="w-full px-4 py-3 bg-[#1e2530] border border-gray-700 rounded-lg text-gray-300 placeholder-gray-500 focus:outline-none focus:border-blue-500"
+            className="textarea textarea-bordered w-full"
           ></textarea>
         </div>
 
         <div>
-          <label htmlFor="contact" className="block text-lg text-white mb-2">
-            Contact Information
+          <label htmlFor="contact" className="label">
+            <span className="label-text">Contact Information</span>
           </label>
           <input
             type="text"
@@ -189,45 +179,46 @@ function AddListing() {
             name="contact"
             required
             placeholder="Phone number or preferred contact method"
-            className="w-full px-4 py-3 bg-[#1e2530] border border-gray-700 rounded-lg text-gray-300 placeholder-gray-500 focus:outline-none focus:border-blue-500"
+            className="input input-bordered w-full"
           />
         </div>
 
         <div>
-          <label htmlFor="availability" className="block text-lg text-white mb-2">
-            Availability
+          <label htmlFor="availability" className="label">
+            <span className="label-text">Availability</span>
           </label>
           <select
             id="availability"
             name="availability"
             required
-            className="w-full px-4 py-3 bg-[#1e2530] border border-gray-700 rounded-lg text-gray-300 focus:outline-none focus:border-blue-500 appearance-none"
+            className="select select-bordered w-full"
           >
             <option value="">Select availability</option>
-            <option value="Available" className="bg-[#1e2530]">Available</option>
-            <option value="Not Available" className="bg-[#1e2530]">Not Available</option>
+            <option value="Available">Available</option>
+            <option value="Not Available">Not Available</option>
           </select>
         </div>
 
         <div className="space-y-3">
           <div className="flex items-center space-x-3">
-            <span className="text-lg text-white">User Email:</span>
-            <span className="text-gray-400">{user.email}</span>
+            <span className="text-base-content">User Email:</span>
+            <span className="text-base-content/70">{user.email}</span>
           </div>
           <div className="flex items-center space-x-3">
-            <span className="text-lg text-white">User Name:</span>
-            <span className="text-gray-400">{user.displayName}</span>
+            <span className="text-base-content">User Name:</span>
+            <span className="text-base-content/70">{user.displayName}</span>
           </div>
         </div>
 
         <div>
-          <button
+          <Button
             type="submit"
-            disabled={loading}
-            className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white text-lg font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
+            variant="primary"
+            fullWidth
+            isLoading={isLoading}
           >
-            {loading ? "Adding..." : "Add Listing"}
-          </button>
+            {isLoading ? "Adding..." : "Add Listing"}
+          </Button>
         </div>
       </form>
     </div>

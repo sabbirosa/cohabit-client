@@ -1,5 +1,5 @@
 import Lottie from 'lottie-react';
-import { Link, useLoaderData } from 'react-router';
+import { useLoaderData } from 'react-router';
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -9,6 +9,7 @@ import searchLottie from '../assets/animations/search.json';
 import Banner1 from "../assets/banner1.jpg";
 import Banner2 from "../assets/banner2.jpg";
 import Banner3 from "../assets/banner3.jpg";
+import Button from "../components/shared/Button";
 
 function Home() {
   const featuredListing = useLoaderData();
@@ -51,7 +52,7 @@ function Home() {
                       {index === 1 && "Match with roommates who share your lifestyle and preferences"}
                       {index === 2 && "Create lasting connections in a space you'll love"}
                     </p>
-                    <Link to="/browse" className="btn btn-primary">Start Browsing</Link>
+                    <Button to="/browse" variant="primary">Start Browsing</Button>
                   </div>
                 </div>
               </div>
@@ -104,7 +105,7 @@ function Home() {
                   </div>
                 </div>
                 <div className="card-actions justify-end mt-4">
-                  <Link to={`/listings/${listing._id}`} className="btn btn-primary btn-sm">View Details</Link>
+                  <Button to={`/listings/${listing._id}`} variant="primary" size="sm">View Details</Button>
                 </div>
               </div>
             </div>
@@ -159,8 +160,8 @@ function Home() {
           <h2 className="text-4xl font-bold mb-6">Ready to Find Your Perfect Match?</h2>
           <p className="mb-8 text-lg">Join our community of roommates and find your ideal living situation today.</p>
           <div className="flex gap-4 justify-center">
-            <Link to="/register" className="btn btn-primary">Sign Up Now</Link>
-            <Link to="/browse" className="btn btn-outline">Browse Listings</Link>
+            <Button to="/register" variant="primary">Sign Up Now</Button>
+            <Button to="/browse" variant="outline">Browse Listings</Button>
           </div>
         </div>
       </div>

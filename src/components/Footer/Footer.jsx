@@ -12,22 +12,22 @@ const socialLinks = [
   {
     name: "Facebook",
     url: "https://facebook.com",
-    icon: <FaFacebook />,
+    icon: <FaFacebook className="text-xl" />,
   },
   {
     name: "Twitter",
     url: "https://twitter.com",
-    icon: <FaTwitter />,
+    icon: <FaTwitter className="text-xl" />,
   },
   {
     name: "Instagram",
     url: "https://instagram.com",
-    icon: <FaInstagram />,
+    icon: <FaInstagram className="text-xl" />,
   },
   {
     name: "LinkedIn",
     url: "https://linkedin.com",
-    icon: <FaLinkedin />,
+    icon: <FaLinkedin className="text-xl" />,
   },
 ];
 
@@ -96,15 +96,15 @@ const contactInfo = [
 
 function Footer() {
   return (
-    <footer className="bg-gray-800 text-white">
+    <footer className="bg-base-300">
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Contact Details */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
+            <h3 className="text-lg font-semibold mb-4 text-base-content">Contact Us</h3>
             <div className="space-y-2">
               {contactInfo.map((item, index) => (
-                <p key={index} className="flex items-center">
+                <p key={index} className="flex items-center text-base-content/80">
                   {item.icon}
                   {item.text}
                 </p>
@@ -114,11 +114,14 @@ function Footer() {
 
           {/* Terms & Conditions */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+            <h3 className="text-lg font-semibold mb-4 text-base-content">Quick Links</h3>
             <ul className="space-y-2">
               {quickLinks.map((link) => (
                 <li key={link.path}>
-                  <Link to={link.path} className="hover:text-[#107d83]">
+                  <Link 
+                    to={link.path} 
+                    className="text-base-content/80 hover:text-primary transition-colors"
+                  >
                     {link.name}
                   </Link>
                 </li>
@@ -128,7 +131,7 @@ function Footer() {
 
           {/* Social Media Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Follow Us</h3>
+            <h3 className="text-lg font-semibold mb-4 text-base-content">Follow Us</h3>
             <div className="flex space-x-4">
               {socialLinks.map((link) => (
                 <a
@@ -136,7 +139,7 @@ function Footer() {
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-[#107d83]"
+                  className="text-base-content/80 hover:text-primary transition-colors"
                 >
                   {link.icon}
                 </a>
@@ -145,8 +148,8 @@ function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 border-t border-gray-700 pt-8 text-center">
-          <p className="text-sm text-gray-400">
+        <div className="mt-8 border-t border-base-content/10 pt-8 text-center">
+          <p className="text-sm text-base-content/60">
             © {new Date().getFullYear()} Cohabit. All rights reserved.
           </p>
         </div>

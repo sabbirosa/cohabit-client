@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { FaEdit, FaTimes, FaTrash } from "react-icons/fa";
 import { useLoaderData } from "react-router";
-import Swal from "sweetalert2";
+import { toast } from "react-toastify";
+import Button from "../components/shared/Button";
 import useAuth from "../contexts/AuthContext";
 
 function MyListings() {
@@ -10,7 +11,7 @@ function MyListings() {
   const myListings = allListings.filter((listing) => listing.userEmail === user.email);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedListing, setSelectedListing] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const lifestyleOptions = [
     "Non-smoker",
@@ -39,7 +40,7 @@ function MyListings() {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    setIsLoading(true);
 
     const formData = new FormData(e.target);
     const preferences = lifestyleOptions.filter(option => formData.getAll('preferences').includes(option));
@@ -70,40 +71,51 @@ function MyListings() {
         throw new Error('Failed to update listing');
       }
 
-      Swal.fire({
-        icon: "success",
-        title: "Success!",
-        text: "Your listing has been updated successfully!",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-
+      toast.success("Your listing has been updated successfully!");
       handleCloseModal();
       window.location.reload();
     } catch (error) {
       console.error('Error updating listing:', error);
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "Failed to update listing. Please try again.",
-      });
+      toast.error("Failed to update listing. Please try again.");
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
   const handleDelete = async (id) => {
-    const result = await Swal.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
-    });
+    const result = await toast.promise(
+      new Promise((resolve, reject) => {
+        toast.info(
+          <div>
+            <p>Are you sure you want to delete this listing?</p>
+            <div className="mt-4 flex justify-end gap-2">
+              <Button
+                onClick={() => reject()}
+                variant="ghost"
+                size="sm"
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={() => resolve()}
+                variant="error"
+                size="sm"
+              >
+                Delete
+              </Button>
+            </div>
+          </div>,
+          { closeButton: false }
+        );
+      }),
+      {
+        pending: 'Please confirm deletion',
+        success: 'Listing deleted successfully',
+        error: 'Deletion cancelled'
+      }
+    );
 
-    if (result.isConfirmed) {
+    if (result) {
       try {
         const response = await fetch(`${import.meta.env.VITE_API_URI}/listings/${id}`, {
           method: 'DELETE',
@@ -113,20 +125,10 @@ function MyListings() {
           throw new Error('Failed to delete listing');
         }
 
-        Swal.fire(
-          'Deleted!',
-          'Your listing has been deleted.',
-          'success'
-        );
-
         window.location.reload();
       } catch (error) {
         console.error('Error deleting listing:', error);
-        Swal.fire(
-          'Error!',
-          'Failed to delete listing. Please try again.',
-          'error'
-        );
+        toast.error("Failed to delete listing. Please try again.");
       }
     }
   };
@@ -134,64 +136,68 @@ function MyListings() {
   return (
     <>
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-white mb-8">My Listings</h1>
+        <h1 className="text-3xl font-bold text-base-content mb-8">My Listings</h1>
         
         {myListings.length === 0 ? (
-          <div className="text-center text-gray-400 py-8">
+          <div className="text-center text-base-content/70 py-8">
             <p className="text-xl">You haven't created any listings yet.</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full border-collapse bg-[#1e2530] rounded-lg overflow-hidden">
+            <table className="w-full border-collapse bg-base-200 rounded-lg overflow-hidden">
               <thead>
-                <tr className="bg-gray-800">
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-white">Title</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-white">Location</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-white">Rent</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-white">Status</th>
-                  <th className="px-6 py-4 text-center text-sm font-semibold text-white">Actions</th>
+                <tr className="bg-base-300">
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-base-content">Title</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-base-content">Location</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-base-content">Rent</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-base-content">Status</th>
+                  <th className="px-6 py-4 text-center text-sm font-semibold text-base-content">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-700">
+              <tbody className="divide-y divide-base-300">
                 {myListings.map((listing) => (
                   <tr 
                     key={listing._id}
-                    className="hover:bg-gray-700/50 transition duration-200"
+                    className="hover:bg-base-300 transition duration-200"
                   >
                     <td className="px-6 py-4">
-                      <span className="text-white font-medium">{listing.title}</span>
+                      <span className="text-base-content font-medium">{listing.title}</span>
                     </td>
-                    <td className="px-6 py-4 text-gray-300">
+                    <td className="px-6 py-4 text-base-content/70">
                       {listing.location}
                     </td>
-                    <td className="px-6 py-4 text-gray-300">
+                    <td className="px-6 py-4 text-base-content/70">
                       ${listing.rent}/month
                     </td>
                     <td className="px-6 py-4">
-                      <span className={`px-2 py-1 rounded-full text-xs ${
+                      <span className={`badge ${
                         listing.availability === "Available" 
-                          ? "bg-green-500 bg-opacity-20 text-green-400"
-                          : "bg-red-500 bg-opacity-20 text-red-400"
+                          ? "badge-success"
+                          : "badge-error"
                       }`}>
                         {listing.availability}
                       </span>
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center justify-center space-x-3">
-                        <button
+                        <Button
                           onClick={() => handleOpenModal(listing)}
-                          className="p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition duration-200"
-                          title="Update"
+                          variant="primary"
+                          size="sm"
+                          className="gap-2"
                         >
                           <FaEdit className="w-4 h-4" />
-                        </button>
-                        <button
+                          Edit
+                        </Button>
+                        <Button
                           onClick={() => handleDelete(listing._id)}
-                          className="p-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition duration-200"
-                          title="Delete"
+                          variant="error"
+                          size="sm"
+                          className="gap-2"
                         >
                           <FaTrash className="w-4 h-4" />
-                        </button>
+                          Delete
+                        </Button>
                       </div>
                     </td>
                   </tr>
@@ -205,13 +211,13 @@ function MyListings() {
       {/* Update Modal */}
       {isModalOpen && selectedListing && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-[#1e2530] rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+          <div className="bg-base-100 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-white">Update Listing</h2>
+                <h2 className="text-2xl font-bold text-base-content">Update Listing</h2>
                 <button
                   onClick={handleCloseModal}
-                  className="text-gray-400 hover:text-white transition-colors"
+                  className="text-base-content/70 hover:text-base-content transition-colors"
                 >
                   <FaTimes className="w-6 h-6" />
                 </button>
@@ -219,8 +225,8 @@ function MyListings() {
 
               <form onSubmit={handleUpdate} className="space-y-6">
                 <div>
-                  <label htmlFor="title" className="block text-sm font-medium text-white mb-1">
-                    Title
+                  <label htmlFor="title" className="label">
+                    <span className="label-text">Title</span>
                   </label>
                   <input
                     type="text"
@@ -228,13 +234,13 @@ function MyListings() {
                     name="title"
                     required
                     defaultValue={selectedListing.title}
-                    className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
+                    className="input input-bordered w-full"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="location" className="block text-sm font-medium text-white mb-1">
-                    Location
+                  <label htmlFor="location" className="label">
+                    <span className="label-text">Location</span>
                   </label>
                   <input
                     type="text"
@@ -242,13 +248,13 @@ function MyListings() {
                     name="location"
                     required
                     defaultValue={selectedListing.location}
-                    className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
+                    className="input input-bordered w-full"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="rent" className="block text-sm font-medium text-white mb-1">
-                    Rent Amount
+                  <label htmlFor="rent" className="label">
+                    <span className="label-text">Rent Amount</span>
                   </label>
                   <input
                     type="number"
@@ -257,20 +263,20 @@ function MyListings() {
                     required
                     min="0"
                     defaultValue={selectedListing.rent}
-                    className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
+                    className="input input-bordered w-full"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="roomType" className="block text-sm font-medium text-white mb-1">
-                    Room Type
+                  <label htmlFor="roomType" className="label">
+                    <span className="label-text">Room Type</span>
                   </label>
                   <select
                     id="roomType"
                     name="roomType"
                     required
                     defaultValue={selectedListing.roomType}
-                    className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                    className="select select-bordered w-full"
                   >
                     <option value="">Select room type</option>
                     {roomTypes.map(type => (
@@ -280,8 +286,8 @@ function MyListings() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-white mb-2">
-                    Lifestyle Preferences
+                  <label className="label">
+                    <span className="label-text">Lifestyle Preferences</span>
                   </label>
                   <div className="grid grid-cols-2 gap-4">
                     {lifestyleOptions.map(option => (
@@ -292,9 +298,9 @@ function MyListings() {
                           name="preferences"
                           value={option}
                           defaultChecked={selectedListing.preferences?.includes(option)}
-                          className="w-4 h-4 rounded border-gray-700 bg-gray-800 text-blue-500 focus:ring-blue-500 focus:ring-offset-gray-900"
+                          className="checkbox checkbox-primary"
                         />
-                        <label htmlFor={option} className="ml-2 text-sm text-gray-300">
+                        <label htmlFor={option} className="ml-2 text-base-content/70">
                           {option}
                         </label>
                       </div>
@@ -303,8 +309,8 @@ function MyListings() {
                 </div>
 
                 <div>
-                  <label htmlFor="description" className="block text-sm font-medium text-white mb-1">
-                    Description
+                  <label htmlFor="description" className="label">
+                    <span className="label-text">Description</span>
                   </label>
                   <textarea
                     id="description"
@@ -312,13 +318,13 @@ function MyListings() {
                     required
                     rows="4"
                     defaultValue={selectedListing.description}
-                    className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
+                    className="textarea textarea-bordered w-full"
                   ></textarea>
                 </div>
 
                 <div>
-                  <label htmlFor="contact" className="block text-sm font-medium text-white mb-1">
-                    Contact Information
+                  <label htmlFor="contact" className="label">
+                    <span className="label-text">Contact Information</span>
                   </label>
                   <input
                     type="text"
@@ -326,20 +332,20 @@ function MyListings() {
                     name="contact"
                     required
                     defaultValue={selectedListing.contact}
-                    className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
+                    className="input input-bordered w-full"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="availability" className="block text-sm font-medium text-white mb-1">
-                    Availability
+                  <label htmlFor="availability" className="label">
+                    <span className="label-text">Availability</span>
                   </label>
                   <select
                     id="availability"
                     name="availability"
                     required
                     defaultValue={selectedListing.availability}
-                    className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                    className="select select-bordered w-full"
                   >
                     <option value="">Select availability</option>
                     <option value="Available">Available</option>
@@ -349,30 +355,29 @@ function MyListings() {
 
                 <div className="space-y-2">
                   <div className="flex items-center">
-                    <span className="text-sm font-medium text-white">User Email:</span>
-                    <span className="ml-2 text-sm text-gray-400">{user.email}</span>
+                    <span className="text-base-content">User Email:</span>
+                    <span className="ml-2 text-base-content/70">{user.email}</span>
                   </div>
                   <div className="flex items-center">
-                    <span className="text-sm font-medium text-white">User Name:</span>
-                    <span className="ml-2 text-sm text-gray-400">{user.displayName}</span>
+                    <span className="text-base-content">User Name:</span>
+                    <span className="ml-2 text-base-content/70">{user.displayName}</span>
                   </div>
                 </div>
 
                 <div className="flex justify-end space-x-3 pt-4">
-                  <button
-                    type="button"
+                  <Button
                     onClick={handleCloseModal}
-                    className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
+                    variant="ghost"
                   >
                     Cancel
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     type="submit"
-                    disabled={loading}
-                    className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
+                    variant="primary"
+                    isLoading={isLoading}
                   >
-                    {loading ? "Updating..." : "Update Listing"}
-                  </button>
+                    {isLoading ? "Updating..." : "Update Listing"}
+                  </Button>
                 </div>
               </form>
             </div>
