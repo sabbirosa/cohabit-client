@@ -1,4 +1,5 @@
-import { FaComments, FaQuoteLeft, FaSearch, FaShieldAlt, FaStar, FaUserFriends } from "react-icons/fa";
+import { FaBed, FaComments, FaHeart, FaMapMarkerAlt, FaQuoteLeft, FaSearch, FaShieldAlt, FaStar, FaUserFriends } from "react-icons/fa";
+
 import { useLoaderData } from 'react-router';
 import "swiper/css";
 import "swiper/css/navigation";
@@ -70,7 +71,7 @@ function Home() {
                   className="w-full h-[300px] md:h-[450px] object-cover"
                   alt={`Banner ${index + 1}`}
                 />
-                <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
                   <div className="text-center text-white px-4">
                     <h2 className="text-4xl md:text-5xl font-bold mb-4">
                       {index === 0 && "Find Your Perfect Living Space"}
@@ -82,7 +83,7 @@ function Home() {
                       {index === 1 && "Match with roommates who share your lifestyle and lifestylePreferences"}
                       {index === 2 && "Create lasting connections in a space you'll love"}
                     </p>
-                    <Button to="/browse" variant="primary">Start Browsing</Button>
+                    <Button to="/listings" variant="primary">Start Browsing</Button>
                   </div>
                 </div>
               </div>
@@ -111,15 +112,11 @@ function Home() {
                 <div className="space-y-3">
                   <p className="text-lg font-semibold text-primary">৳{listing.rent}/month</p>
                   <p className="flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                    </svg>
+                    <FaMapMarkerAlt className="w-5 h-5 text-primary" />
                     {listing.location}
                   </p>
                   <div className="flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
-                      <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
-                    </svg>
+                    <FaBed className="w-5 h-5 text-primary" />
                     <span className="font-medium">{listing.roomType}</span>
                   </div>
                   <div className="flex flex-wrap gap-2 mt-2">
@@ -133,15 +130,7 @@ function Home() {
                     ))}
                   </div>
                   <div className="flex items-center gap-2 text-gray-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6z" />
-                    </svg>
-                    {listing.userName}
-                  </div>
-                  <div className="flex items-center gap-2 text-gray-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
+                    <FaHeart className="w-5 h-5 text-primary" />
                     {listing.likeCount || 0} likes
                   </div>
                 </div>

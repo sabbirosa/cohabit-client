@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router";
+import ErrorListing from "../components/ErrorListing";
 import Loading from "../components/Loading";
 import AuthLayout from "../layouts/AuthLayout";
 import Root from "../layouts/Root";
@@ -61,7 +62,12 @@ const router = createBrowserRouter([
             <DetailsPage />
           </PrivateRoute>
         ),
-        loader: ({ params }) => fetch(`${apiURI}/listings/${params.id}`),
+        loader: async ({ params }) => {
+          const res = await fetch(`${apiURI}/listings/${params.id}`);
+          if (!res.ok) throw new Response("Not Found", { status: res.status });
+          return res;
+        },
+        errorElement: <ErrorListing />, // or <ErrorListing /> if specific
         hydrateFallbackElement: <Loading />,
       },
     ],

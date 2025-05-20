@@ -9,7 +9,7 @@ function DetailsPage() {
   const { user } = useAuth();
   const listingDetails = useLoaderData();
   const [hasLiked, setHasLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(listingDetails.likeCount || 0);
+  const [likeCount, setLikeCount] = useState(listingDetails?.likeCount || 0);
 
   const handleLike = async () => {
     if (!user) {
