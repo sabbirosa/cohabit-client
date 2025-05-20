@@ -45,16 +45,20 @@ function Navbar() {
   };
 
   return (
-    <nav className="bg-base-100 shadow-lg">
+    <nav className="bg-primary/5 shadow-lg border-b border-primary/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex">
-            <div className="flex-shrink-0 flex items-center">
-              <NavLink to="/" className="text-2xl font-bold text-primary">
-                Cohabit
-              </NavLink>
-            </div>
-            <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
+        <div className="flex justify-between h-16 items-center">
+          {/* Logo */}
+          <div className="flex-shrink-0">
+            <NavLink to="/" className="flex items-center gap-2">
+              <img className="h-12 w-12" src="/site-logo.png" alt="Cohabit Logo" />
+              <h1 className="text-2xl font-bold text-primary mt-2">Cohabit</h1>
+            </NavLink>
+          </div>
+
+          {/* Navigation Links - Centered */}
+          <div className="hidden sm:flex flex-1 justify-center">
+            <div className="flex space-x-8">
               {navItems.map(
                 (item) =>
                   (!item.isPrivate || user) && (
@@ -73,18 +77,25 @@ function Navbar() {
               )}
             </div>
           </div>
-          <div className="flex items-center">
+
+          {/* Right side - Theme toggle and Auth */}
+          <div className="flex items-center gap-4">
             <label className="swap swap-rotate">
               <input 
                 type="checkbox" 
                 onChange={toggleTheme}
                 checked={theme === "dark"}
               />
-              <FaSun className="swap-on h-5 w-5" />
-              <FaMoon className="swap-off h-5 w-5" />
+              <div className="swap-on bg-primary/10 rounded-full p-2.25">
+                <FaSun className="h-5 w-5 text-primary" />
+              </div>
+              <div className="swap-off bg-primary/10 rounded-full p-2.25">
+                <FaMoon className="h-5 w-5 text-primary" />
+              </div>
+              
             </label>
             {user ? (
-              <div className="flex items-center space-x-4 ml-4">
+              <div className="flex items-center space-x-4">
                 <div className="relative group">
                   <img
                     src={user.photoURL || "https://via.placeholder.com/40"}
@@ -105,7 +116,7 @@ function Navbar() {
                 </button>
               </div>
             ) : (
-              <div className="flex items-center space-x-4 ml-4">
+              <div className="flex items-center space-x-4">
                 <Link
                   to="/auth/login"
                   className="text-base-content hover:text-primary px-3 py-2 rounded-md text-sm font-medium"
@@ -120,19 +131,21 @@ function Navbar() {
                 </Link>
               </div>
             )}
-          </div>
-          <div className="-mr-2 flex items-center sm:hidden">
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-base-content hover:bg-base-200 focus:outline-none"
-            >
-              <span className="sr-only">Open main menu</span>
-              {!isMenuOpen ? (
-                <HiOutlineMenuAlt1 className="h-6 w-6" />
-              ) : (
-                <HiOutlineX className="h-6 w-6" />
-              )}
-            </button>
+
+            {/* Mobile menu button */}
+            <div className="sm:hidden">
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="inline-flex items-center justify-center p-2 rounded-md text-base-content hover:bg-primary/10 focus:outline-none"
+              >
+                <span className="sr-only">Open main menu</span>
+                {!isMenuOpen ? (
+                  <HiOutlineMenuAlt1 className="h-6 w-6" />
+                ) : (
+                  <HiOutlineX className="h-6 w-6" />
+                )}
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -150,7 +163,7 @@ function Navbar() {
                     className={({ isActive }) =>
                       isActive
                         ? "bg-primary bg-opacity-10 border-primary text-primary block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
-                        : "border-transparent text-base-content hover:bg-base-200 hover:border-base-300 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
+                        : "border-transparent text-base-content hover:bg-primary/10 hover:border-primary/20 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
                     }
                   >
                     {item.name}
@@ -158,7 +171,7 @@ function Navbar() {
                 )
             )}
           </div>
-          <div className="pt-4 pb-3 border-t border-base-200">
+          <div className="pt-4 pb-3 border-t border-primary/10">
             <div className="flex items-center px-4">
               <label className="swap swap-rotate">
                 <input 

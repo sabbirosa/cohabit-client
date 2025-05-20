@@ -6,7 +6,7 @@ function Root() {
   return (
     <>
       <Navbar />
-      <main className="container mx-auto px-4 py-8 min-h-[calc(100vh-420px)]">
+      <main className="mx-auto py-8 min-h-[calc(100vh-420px)]">
         <Outlet />
       </main>
       <Footer />

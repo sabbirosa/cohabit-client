@@ -101,3 +101,17 @@
   --depth: 1;
   --noise: 0;
 }
+
+:root {
+  --swiper-navigation-color: --color-base-100;
+  --swiper-pagination-color: --color-base-100;
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  color: var(--color-primary);
+}
+
+html .swiper-pagination-bullet {
+  background: var(--color-primary);
+}

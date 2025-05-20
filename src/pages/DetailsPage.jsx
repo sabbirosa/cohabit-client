@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FaBed, FaDollarSign, FaHeart, FaMapMarkerAlt, FaPhone } from "react-icons/fa";
 import { useLoaderData } from "react-router";
 import Swal from "sweetalert2";
+import Button from "../components/shared/Button";
 import useAuth from "../contexts/AuthContext";
 
 function DetailsPage() {
@@ -46,59 +47,63 @@ function DetailsPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-4xl mx-auto bg-[#1e2530] rounded-lg shadow-xl border border-gray-700 overflow-hidden">
-        <div className="p-8">
+    <div className="max-w-4xl mx-auto">
+      <div className="bg-primary/5 rounded-[var(--radius-box)] shadow-xl border border-primary/20 overflow-hidden">
+        <div className="p-8 bg-primary/5">
           <div className="text-center mb-8">
-            <p className="text-xl text-gray-400 mb-4">
+            <p className="text-xl text-base-content/70 mb-4">
               {likeCount} people interested in
             </p>
-            <h1 className="text-3xl font-bold text-white">
+            <h1 className="text-3xl font-bold text-base-content">
               {listingDetails.title}
             </h1>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
             <div className="space-y-4">
-              <div className="flex items-center text-gray-300">
-                <FaMapMarkerAlt className="w-5 h-5 mr-3" />
+              <div className="flex items-center text-base-content/70">
+                <FaMapMarkerAlt className="w-5 h-5 mr-3 text-primary" />
                 <span>{listingDetails.location}</span>
               </div>
               
-              <div className="flex items-center text-gray-300">
-                <FaBed className="w-5 h-5 mr-3" />
+              <div className="flex items-center text-base-content/70">
+                <FaBed className="w-5 h-5 mr-3 text-primary" />
                 <span>{listingDetails.roomType}</span>
               </div>
               
-              <div className="flex items-center text-gray-300">
-                <FaDollarSign className="w-5 h-5 mr-3" />
+              <div className="flex items-center text-base-content/70">
+                <FaDollarSign className="w-5 h-5 mr-3 text-primary" />
                 <span>${listingDetails.rent}/month</span>
               </div>
 
-              <div className="text-gray-300">
+              <div className="text-base-content/70">
                 <span className="font-semibold">Availability:</span>{" "}
-                <span className={listingDetails.availability === "Available" ? "text-green-400" : "text-red-400"}>
+                <span className={`${
+                  listingDetails.availability === "Available" 
+                    ? "text-success" 
+                    : "text-error"
+                }`}>
                   {listingDetails.availability}
                 </span>
               </div>
             </div>
 
             <div className="space-y-4">
-              <div className="text-gray-300">
+              <div className="text-base-content/70">
                 <span className="font-semibold">Posted by:</span>{" "}
                 <span>{listingDetails.userName}</span>
               </div>
               
-              <div className="text-gray-300">
+              <div className="text-base-content/70">
                 <span className="font-semibold">Email:</span>{" "}
                 <span>{listingDetails.userEmail}</span>
               </div>
 
               {hasLiked && (
-                <div className="text-gray-300">
+                <div className="text-base-content/70">
                   <span className="font-semibold">Contact:</span>{" "}
                   <div className="flex items-center mt-1">
-                    <FaPhone className="w-4 h-4 mr-2" />
+                    <FaPhone className="w-4 h-4 mr-2 text-primary" />
                     <span>{listingDetails.contact}</span>
                   </div>
                 </div>
@@ -107,12 +112,12 @@ function DetailsPage() {
           </div>
 
           <div className="mb-8">
-            <h3 className="text-xl font-semibold text-white mb-4">Lifestyle Preferences</h3>
+            <h3 className="text-xl font-semibold text-base-content mb-4">Lifestyle Preferences</h3>
             <div className="flex flex-wrap gap-3">
               {listingDetails.lifestylePreferences?.map((pref, index) => (
                 <span
                   key={index}
-                  className="px-3 py-1 bg-blue-500 bg-opacity-20 text-blue-400 rounded-full"
+                  className="px-3 py-1 bg-primary/10 text-primary rounded-full"
                 >
                   {pref}
                 </span>
@@ -121,25 +126,22 @@ function DetailsPage() {
           </div>
 
           <div className="mb-8">
-            <h3 className="text-xl font-semibold text-white mb-4">Description</h3>
-            <p className="text-gray-300 whitespace-pre-line">
+            <h3 className="text-xl font-semibold text-base-content mb-4">Description</h3>
+            <p className="text-base-content/70 whitespace-pre-line">
               {listingDetails.description}
             </p>
           </div>
 
           <div className="flex justify-center">
-            <button
+            <Button
               onClick={handleLike}
               disabled={hasLiked}
-              className={`flex items-center space-x-2 px-6 py-3 rounded-lg text-white transition duration-200 ${
-                hasLiked
-                  ? "bg-pink-600 cursor-not-allowed"
-                  : "bg-pink-500 hover:bg-pink-600"
-              }`}
+              variant={hasLiked ? "success" : "primary"}
+              className="gap-2"
             >
-              <FaHeart className={`w-5 h-5 ${hasLiked ? "text-white" : "text-white"}`} />
+              <FaHeart className="w-5 h-5" />
               <span>{hasLiked ? "Liked" : "Like"}</span>
-            </button>
+            </Button>
           </div>
         </div>
       </div>

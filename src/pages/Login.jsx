@@ -43,8 +43,8 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-base-200 px-4">
-      <div className="max-w-md w-full space-y-8 p-8 bg-base-100 rounded-[var(--radius-box)] shadow-xl">
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <div className="max-w-md w-full space-y-8 p-8 bg-primary/5 rounded-[var(--radius-box)] shadow-xl border border-primary/20">
         <div className="text-center">
           <h2 className="text-3xl font-bold text-base-content">Welcome Back!</h2>
           <p className="mt-2 text-base-content/70">
@@ -55,27 +55,27 @@ function Login() {
           <div className="space-y-4">
             <div>
               <label htmlFor="email" className="label">
-                <span className="label-text">Email address</span>
+                <span className="label-text text-base-content">Email address</span>
               </label>
               <input
                 id="email"
                 name="email"
                 type="email"
                 required
-                className="input input-bordered w-full rounded-[var(--radius-field)]"
+                className="input input-bordered w-full rounded-[var(--radius-field)] bg-primary/5 border-primary/20"
                 placeholder="Enter your email"
               />
             </div>
             <div>
               <label htmlFor="password" className="label">
-                <span className="label-text">Password</span>
+                <span className="label-text text-base-content">Password</span>
               </label>
               <input
                 id="password"
                 name="password"
                 type="password"
                 required
-                className="input input-bordered w-full rounded-[var(--radius-field)]"
+                className="input input-bordered w-full rounded-[var(--radius-field)] bg-primary/5 border-primary/20"
                 placeholder="Enter your password"
               />
             </div>

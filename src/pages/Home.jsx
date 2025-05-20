@@ -1,11 +1,10 @@
-import Lottie from 'lottie-react';
+import { FaComments, FaQuoteLeft, FaSearch, FaShieldAlt, FaStar, FaUserFriends } from "react-icons/fa";
 import { useLoaderData } from 'react-router';
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import searchLottie from '../assets/animations/search.json';
 import Banner1 from "../assets/banner1.jpg";
 import Banner2 from "../assets/banner2.jpg";
 import Banner3 from "../assets/banner3.jpg";
@@ -15,8 +14,39 @@ function Home() {
   const featuredListing = useLoaderData();
   console.log(featuredListing);
 
+  const reviews = [
+    {
+      name: "Sarah Johnson",
+      image: "https://i.pravatar.cc/150?img=1",
+      role: "Student",
+      rating: 5,
+      review: "Found my perfect roommate within a week! The matching system really works, and I love how easy it was to communicate through the platform."
+    },
+    {
+      name: "Michael Chen",
+      image: "https://i.pravatar.cc/150?img=2",
+      role: "Professional",
+      rating: 4,
+      review: "As a working professional, I needed a reliable platform to find like-minded roommates. Cohabit made the process smooth and stress-free."
+    },
+    {
+      name: "Emily Rodriguez",
+      image: "https://i.pravatar.cc/150?img=3",
+      role: "Graduate Student",
+      rating: 3,
+      review: "The detailed profiles and lifestyle preferences matching helped me find roommates who share my values and daily routines."
+    },
+    {
+      name: "David Kim",
+      image: "https://i.pravatar.cc/150?img=4",
+      role: "Young Professional",
+      rating: 5,
+      review: "Verified profiles gave me peace of mind. Found great roommates and made the whole process of moving to a new city much easier."
+    }
+  ];
+
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen min-w-screen">
       {/* Banner Carousel */}
       <div className="max-w-7xl mx-auto px-4 py-8">
         <Swiper
@@ -131,44 +161,127 @@ function Home() {
         </div>
       </div>
 
-      {/* How It Works Section */}
-      <div className="bg-base-200 py-16">
-        <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-12">How It Works</h2>
-          <div className="flex flex-col lg:flex-row items-center gap-8">
-            <div className="lg:w-1/2">
-              <div className="space-y-6">
+      {/* Why Choose Cohabit Section */}
+      <div className="bg-primary/10 mx-auto">
+        <div className="py-16 max-w-7xl mx-auto px-4">
+          <h2 className="text-4xl font-bold text-center mb-12">Why Choose Cohabit?</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+            <div className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300">
+              <div className="card-body">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xl">1</div>
-                  <div>
-                    <h3 className="text-xl font-bold">Create Your Listing</h3>
-                    <p>List your space or requirements in detail</p>
+                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                    <FaShieldAlt className="w-6 h-6" />
                   </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xl">2</div>
                   <div>
-                    <h3 className="text-xl font-bold">Connect with Matches</h3>
-                    <p>Find and connect with compatible roommates</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xl">3</div>
-                  <div>
-                    <h3 className="text-xl font-bold">Make It Official</h3>
-                    <p>Finalize arrangements with your new roommate</p>
+                    <h3 className="text-xl font-semibold mb-2">Verified Profiles</h3>
+                    <p className="text-base-content/70">Every user goes through our verification process to ensure a safe and trustworthy community.</p>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="lg:w-1/2">
-              <Lottie 
-                animationData={searchLottie} 
-                className="max-w-[500px] mx-auto"
-                loop={true}
-              />
+
+            <div className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300">
+              <div className="card-body">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                    <FaUserFriends className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold mb-2">Smart Matching</h3>
+                    <p className="text-base-content/70">Our advanced algorithm matches you with roommates based on lifestyle, preferences, and compatibility.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300">
+              <div className="card-body">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                    <FaSearch className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold mb-2">Detailed Listings</h3>
+                    <p className="text-base-content/70">Comprehensive listing details with photos, amenities, and all the information you need to make a decision.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300">
+              <div className="card-body">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                    <FaComments className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold mb-2">Easy Communication</h3>
+                    <p className="text-base-content/70">Built-in messaging system makes it simple to connect and coordinate with potential roommates.</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Reviews Section */}
+      <div className="py-16">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold mb-4">What Our Users Say</h2>
+            <p className="text-lg text-base-content/70 max-w-2xl mx-auto">
+              Hear from people who found their perfect living situation through Cohabit
+            </p>
+          </div>
+
+          <Swiper
+            spaceBetween={30}
+            slidesPerView={1}
+            breakpoints={{
+              640: { slidesPerView: 2 },
+              1024: { slidesPerView: 3 }
+            }}
+            loop={true}
+            speed={2000}
+            autoplay={{
+              delay: 0,
+              disableOnInteraction: false,
+              reverseDirection: false
+            }}
+            modules={[Autoplay]}
+            className="pb-12"
+          >
+            {reviews.map((review, index) => (
+              <SwiperSlide key={index}>
+                <div className="bg-base-100 p-6 rounded-[var(--radius-box)] shadow-lg border border-primary/20">
+                  <div className="flex items-center gap-4 mb-4">
+                    <img 
+                      src={review.image} 
+                      alt={review.name} 
+                      className="w-12 h-12 rounded-full object-cover"
+                    />
+                    <div>
+                      <h3 className="font-semibold">{review.name}</h3>
+                      <p className="text-sm text-base-content/70">{review.role}</p>
+                    </div>
+                  </div>
+                  <div className="flex text-warning mb-3">
+                    {[...Array(5)].map((_, i) => (
+                      <FaStar 
+                        key={i} 
+                        className={i < review.rating ? 'text-warning' : 'text-gray-300'}
+                      />
+                    ))}
+                  </div>
+                  <div className="relative">
+                    <FaQuoteLeft className="absolute -top-3 -left-2 text-3xl text-primary/10" />
+                    <p className="text-base-content/70 pl-6">{review.review}</p>
+                  </div>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
       </div>
 

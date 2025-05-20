@@ -96,7 +96,7 @@ const contactInfo = [
 
 function Footer() {
   return (
-    <footer className="bg-base-300">
+    <footer className="bg-primary/5 border-t border-primary/10">
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Contact Details */}
@@ -148,7 +148,7 @@ function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 border-t border-base-content/10 pt-8 text-center">
+        <div className="mt-8 border-t border-primary/10 pt-8 text-center">
           <p className="text-sm text-base-content/60">
             © {new Date().getFullYear()} Cohabit. All rights reserved.
           </p>

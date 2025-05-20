@@ -10,9 +10,9 @@ function BrowseListings() {
       <h1 className="text-3xl font-bold text-base-content mb-8">Browse Listings</h1>
       
       <div className="overflow-x-auto">
-        <table className="w-full border-collapse bg-base-200 rounded-lg overflow-hidden">
+        <table className="w-full border-collapse bg-primary/5 rounded-lg overflow-hidden">
           <thead>
-            <tr className="bg-base-300">
+            <tr className="bg-primary/10">
               <th className="px-6 py-4 text-left text-sm font-semibold text-base-content">Title</th>
               <th className="px-6 py-4 text-left text-sm font-semibold text-base-content">Location</th>
               <th className="px-6 py-4 text-left text-sm font-semibold text-base-content">Room Type</th>
@@ -22,11 +22,11 @@ function BrowseListings() {
               <th className="px-6 py-4 text-center text-sm font-semibold text-base-content">Action</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-base-300">
+          <tbody className="divide-y divide-primary/10">
             {listings.map((listing) => (
               <tr 
                 key={listing._id}
-                className="hover:bg-base-300 transition duration-200"
+                className="hover:bg-primary/10 transition duration-200"
               >
                 <td className="px-6 py-4">
                   <div className="flex flex-col">

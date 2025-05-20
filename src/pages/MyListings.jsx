@@ -155,9 +155,9 @@ function MyListings() {
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full border-collapse bg-base-200 rounded-lg overflow-hidden">
+            <table className="w-full border-collapse bg-primary/5 rounded-lg overflow-hidden">
               <thead>
-                <tr className="bg-base-300">
+                <tr className="bg-primary/10">
                   <th className="px-6 py-4 text-left text-sm font-semibold text-base-content">Title</th>
                   <th className="px-6 py-4 text-left text-sm font-semibold text-base-content">Location</th>
                   <th className="px-6 py-4 text-left text-sm font-semibold text-base-content">Rent</th>
@@ -165,11 +165,11 @@ function MyListings() {
                   <th className="px-6 py-4 text-center text-sm font-semibold text-base-content">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-base-300">
+              <tbody className="divide-y divide-primary/10">
                 {myListings.map((listing) => (
                   <tr 
                     key={listing._id}
-                    className="hover:bg-base-300 transition duration-200"
+                    className="hover:bg-primary/10 transition duration-200"
                   >
                     <td className="px-6 py-4">
                       <span className="text-base-content font-medium">{listing.title}</span>
@@ -222,8 +222,8 @@ function MyListings() {
       {/* Update Modal */}
       {isModalOpen && selectedListing && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-base-100 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6">
+          <div className="bg-base-100 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-primary/20">
+          <div className="p-6 bg-primary/5">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-bold text-base-content">Update Listing</h2>
                 <button
@@ -237,7 +237,7 @@ function MyListings() {
               <form onSubmit={handleUpdate} className="space-y-6">
                 <div>
                   <label htmlFor="title" className="label">
-                    <span className="label-text">Title</span>
+                    <span className="label-text text-base-content">Title</span>
                   </label>
                   <input
                     type="text"
@@ -245,13 +245,13 @@ function MyListings() {
                     name="title"
                     required
                     defaultValue={selectedListing.title}
-                    className="input input-bordered w-full"
+                    className="input input-bordered w-full bg-primary/5 border-primary/20"
                   />
                 </div>
 
                 <div>
                   <label htmlFor="location" className="label">
-                    <span className="label-text">Location</span>
+                    <span className="label-text text-base-content">Location</span>
                   </label>
                   <input
                     type="text"
@@ -259,13 +259,13 @@ function MyListings() {
                     name="location"
                     required
                     defaultValue={selectedListing.location}
-                    className="input input-bordered w-full"
+                    className="input input-bordered w-full bg-primary/5 border-primary/20"
                   />
                 </div>
 
                 <div>
                   <label htmlFor="rent" className="label">
-                    <span className="label-text">Rent Amount</span>
+                    <span className="label-text text-base-content">Rent Amount</span>
                   </label>
                   <input
                     type="number"
@@ -274,20 +274,20 @@ function MyListings() {
                     required
                     min="0"
                     defaultValue={selectedListing.rent}
-                    className="input input-bordered w-full"
+                    className="input input-bordered w-full bg-primary/5 border-primary/20"
                   />
                 </div>
 
                 <div>
                   <label htmlFor="roomType" className="label">
-                    <span className="label-text">Room Type</span>
+                    <span className="label-text text-base-content">Room Type</span>
                   </label>
                   <select
                     id="roomType"
                     name="roomType"
                     required
                     defaultValue={selectedListing.roomType}
-                    className="select select-bordered w-full"
+                    className="select select-bordered w-full bg-primary/5 border-primary/20"
                   >
                     <option value="">Select room type</option>
                     {roomTypes.map(type => (
@@ -298,7 +298,7 @@ function MyListings() {
 
                 <div>
                   <label className="label">
-                    <span className="label-text font-medium text-base-content">Lifestyle Preferences</span>
+                    <span className="label-text text-base-content">Lifestyle Preferences</span>
                   </label>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                     {lifestyleOptions.map(option => (
@@ -309,7 +309,7 @@ function MyListings() {
                           name="lifestylePreferences"
                           value={option}
                           defaultChecked={selectedListing.lifestylePreferences?.includes(option)}
-                          className="checkbox checkbox-primary"
+                          className="checkbox checkbox-primary border-primary/20"
                         />
                         <label 
                           htmlFor={option} 
@@ -324,7 +324,7 @@ function MyListings() {
 
                 <div>
                   <label htmlFor="description" className="label">
-                    <span className="label-text">Description</span>
+                    <span className="label-text text-base-content">Description</span>
                   </label>
                   <textarea
                     id="description"
@@ -332,13 +332,13 @@ function MyListings() {
                     required
                     rows="4"
                     defaultValue={selectedListing.description}
-                    className="textarea textarea-bordered w-full"
+                    className="textarea textarea-bordered w-full bg-primary/5 border-primary/20"
                   ></textarea>
                 </div>
 
                 <div>
                   <label htmlFor="contact" className="label">
-                    <span className="label-text">Contact Information</span>
+                    <span className="label-text text-base-content">Contact Information</span>
                   </label>
                   <input
                     type="text"
@@ -346,20 +346,20 @@ function MyListings() {
                     name="contact"
                     required
                     defaultValue={selectedListing.contact}
-                    className="input input-bordered w-full"
+                    className="input input-bordered w-full bg-primary/5 border-primary/20"
                   />
                 </div>
 
                 <div>
                   <label htmlFor="availability" className="label">
-                    <span className="label-text">Availability</span>
+                    <span className="label-text text-base-content">Availability</span>
                   </label>
                   <select
                     id="availability"
                     name="availability"
                     required
                     defaultValue={selectedListing.availability}
-                    className="select select-bordered w-full"
+                    className="select select-bordered w-full bg-primary/5 border-primary/20"
                   >
                     <option value="">Select availability</option>
                     <option value="Available">Available</option>

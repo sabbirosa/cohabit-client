@@ -72,10 +72,10 @@ function AddListing() {
     <div className="max-w-4xl mx-auto p-6">
       <h1 className="text-4xl font-bold text-base-content mb-12">Add Listing</h1>
       
-      <form onSubmit={handleSubmit} className="space-y-8">
+      <form onSubmit={handleSubmit} className="space-y-8 bg-primary/5 p-8 rounded-lg">
         <div>
           <label htmlFor="title" className="label">
-            <span className="label-text">Title</span>
+            <span className="label-text text-base-content">Title</span>
           </label>
           <input
             type="text"
@@ -83,13 +83,13 @@ function AddListing() {
             name="title"
             required
             placeholder="e.g., Looking for a roommate in NYC"
-            className="input input-bordered w-full"
+            className="input input-bordered w-full bg-primary/5 border-primary/20"
           />
         </div>
 
         <div>
           <label htmlFor="location" className="label">
-            <span className="label-text">Location</span>
+            <span className="label-text text-base-content">Location</span>
           </label>
           <input
             type="text"
@@ -97,13 +97,13 @@ function AddListing() {
             name="location"
             required
             placeholder="e.g., Manhattan, NYC"
-            className="input input-bordered w-full"
+            className="input input-bordered w-full bg-primary/5 border-primary/20"
           />
         </div>
 
         <div>
           <label htmlFor="rent" className="label">
-            <span className="label-text">Rent Amount</span>
+            <span className="label-text text-base-content">Rent Amount</span>
           </label>
           <input
             type="number"
@@ -112,19 +112,19 @@ function AddListing() {
             required
             min="0"
             placeholder="Monthly rent amount"
-            className="input input-bordered w-full"
+            className="input input-bordered w-full bg-primary/5 border-primary/20"
           />
         </div>
 
         <div>
           <label htmlFor="roomType" className="label">
-            <span className="label-text">Room Type</span>
+            <span className="label-text text-base-content">Room Type</span>
           </label>
           <select
             id="roomType"
             name="roomType"
             required
-            className="select select-bordered w-full"
+            className="select select-bordered w-full bg-primary/5 border-primary/20"
           >
             <option value="">Select room type</option>
             {roomTypes.map(type => (
@@ -135,7 +135,7 @@ function AddListing() {
 
         <div>
           <label className="label">
-            <span className="label-text">Lifestyle Preferences</span>
+            <span className="label-text text-base-content">Lifestyle Preferences</span>
           </label>
           <div className="grid grid-cols-2 gap-6">
             {lifestyleOptions.map(option => (
@@ -145,7 +145,7 @@ function AddListing() {
                   id={option}
                   name="lifestylePreferences"
                   value={option}
-                  className="checkbox checkbox-primary"
+                  className="checkbox checkbox-primary border-primary/20"
                 />
                 <label htmlFor={option} className="text-base-content/70">
                   {option}
@@ -157,7 +157,7 @@ function AddListing() {
 
         <div>
           <label htmlFor="description" className="label">
-            <span className="label-text">Description</span>
+            <span className="label-text text-base-content">Description</span>
           </label>
           <textarea
             id="description"
@@ -165,13 +165,13 @@ function AddListing() {
             required
             rows="4"
             placeholder="Describe the room and your lifestyle preferences"
-            className="textarea textarea-bordered w-full"
+            className="textarea textarea-bordered w-full bg-primary/5 border-primary/20"
           ></textarea>
         </div>
 
         <div>
           <label htmlFor="contact" className="label">
-            <span className="label-text">Contact Information</span>
+            <span className="label-text text-base-content">Contact Information</span>
           </label>
           <input
             type="text"
@@ -179,19 +179,19 @@ function AddListing() {
             name="contact"
             required
             placeholder="Phone number or preferred contact method"
-            className="input input-bordered w-full"
+            className="input input-bordered w-full bg-primary/5 border-primary/20"
           />
         </div>
 
         <div>
           <label htmlFor="availability" className="label">
-            <span className="label-text">Availability</span>
+            <span className="label-text text-base-content">Availability</span>
           </label>
           <select
             id="availability"
             name="availability"
             required
-            className="select select-bordered w-full"
+            className="select select-bordered w-full bg-primary/5 border-primary/20"
           >
             <option value="">Select availability</option>
             <option value="Available">Available</option>

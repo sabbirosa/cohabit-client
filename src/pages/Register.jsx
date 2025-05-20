@@ -78,8 +78,8 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-base-200 px-4">
-      <div className="max-w-md w-full space-y-8 p-8 bg-base-100 rounded-[var(--radius-box)] shadow-xl">
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <div className="max-w-md w-full p-8 my-12 bg-primary/5 rounded-[var(--radius-box)] shadow-xl border border-primary/20">
         <div className="text-center">
           <h2 className="text-3xl font-bold text-base-content">Create Account</h2>
           <p className="mt-2 text-base-content/70">
@@ -90,7 +90,7 @@ const Register = () => {
           <div className="space-y-4">
             <div>
               <label htmlFor="name" className="label">
-                <span className="label-text">Full Name</span>
+                <span className="label-text text-base-content">Full Name</span>
               </label>
               <input
                 id="name"
@@ -99,13 +99,13 @@ const Register = () => {
                 required
                 value={formData.name}
                 onChange={handleChange}
-                className="input input-bordered w-full rounded-[var(--radius-field)]"
+                className="input input-bordered w-full rounded-[var(--radius-field)] bg-primary/5 border-primary/20"
                 placeholder="Enter your full name"
               />
             </div>
             <div>
               <label htmlFor="email" className="label">
-                <span className="label-text">Email address</span>
+                <span className="label-text text-base-content">Email address</span>
               </label>
               <input
                 id="email"
@@ -115,13 +115,13 @@ const Register = () => {
                 required
                 value={formData.email}
                 onChange={handleChange}
-                className="input input-bordered w-full rounded-[var(--radius-field)]"
+                className="input input-bordered w-full rounded-[var(--radius-field)] bg-primary/5 border-primary/20"
                 placeholder="Enter your email"
               />
             </div>
             <div>
               <label htmlFor="photoURL" className="label">
-                <span className="label-text">Photo URL (optional)</span>
+                <span className="label-text text-base-content">Photo URL (optional)</span>
               </label>
               <input
                 id="photoURL"
@@ -129,13 +129,13 @@ const Register = () => {
                 type="url"
                 value={formData.photoURL}
                 onChange={handleChange}
-                className="input input-bordered w-full rounded-[var(--radius-field)]"
+                className="input input-bordered w-full rounded-[var(--radius-field)] bg-primary/5 border-primary/20"
                 placeholder="Enter photo URL"
               />
             </div>
             <div>
               <label htmlFor="password" className="label">
-                <span className="label-text">Password</span>
+                <span className="label-text text-base-content">Password</span>
               </label>
               <input
                 id="password"
@@ -145,14 +145,14 @@ const Register = () => {
                 required
                 value={formData.password}
                 onChange={handleChange}
-                className="input input-bordered w-full rounded-[var(--radius-field)]"
+                className="input input-bordered w-full rounded-[var(--radius-field)] bg-primary/5 border-primary/20"
                 placeholder="Enter your password"
               />
             </div>
           </div>
 
           {errorMessage && (
-            <div className="alert alert-error rounded-[var(--radius-box)]">
+            <div className="alert alert-error rounded-[var(--radius-box)] bg-error/20 text-error border-error/20">
               <span>{errorMessage}</span>
             </div>
           )}
