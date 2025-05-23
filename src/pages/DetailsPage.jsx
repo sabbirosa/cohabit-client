@@ -21,6 +21,15 @@ function DetailsPage() {
       return;
     }
 
+    if (user.email === listingDetails.userEmail) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "You cannot like your own listing",
+      });
+      return;
+    }
+
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URI}/listings/${listingDetails._id}/like`, {
         method: 'PATCH',
